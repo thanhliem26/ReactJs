@@ -4,13 +4,47 @@ import { push } from "connected-react-router";
 import * as actions from "../../store/actions";
 import './Login.scss';
 import { FormattedMessage } from 'react-intl';
-
+import { userService } from '../../services/index';
 
 
 class Login extends Component {
     constructor(props) {
         super(props);
-        this.btnLogin = React.createRef();
+        this.state = {
+            username: '',
+            password: '',
+            showPass: false,
+            errMessage: '',
+        }
+    }
+
+    handleOnchange = (e) => {
+        this.setState({ username: e.target.value, errMessage: '' })
+    }
+
+    handleOnchangePass = (e) => {
+        this.setState({ password: e.target.value, errMessage: ''  })
+    }
+
+    handleLogin = async () => {
+        try {
+            const data = await userService.handleLogin(this.state.username, this.state.password);
+            console.log("data", data)
+            if(data.errCode !== 0) {
+                this.setState({errMessage: data.message});
+            } else {
+                this.props.userLoginSuccess(data.user)
+            }
+        } catch(e) {
+            if(e.response && e.response.data) {
+                this.setState({errMessage: e.response.data.message});
+            }
+        }
+        
+    }
+
+    handleShowPass = (type) => {
+        this.setState({showPass: type})
     }
 
     render() {
@@ -22,16 +56,36 @@ class Login extends Component {
                         <div className='col-12 text-login'>Login</div>
                         <div className='col-12 form-group login-input'>
                             <label>Username:</label>
-                            <input type="text" className="form-control" placeholder='Enter your name'/>
+                            <input
+                                value={this.state.username}
+                                type="text"
+                                className="form-control"
+                                placeholder='Enter your name'
+                                onChange={(e) => this.handleOnchange(e)}
+                            />
                         </div>
                         <div className='col-12 form-group login-input'>
                             <label>PassWord:</label>
-                            <input type="password" className="form-control" placeholder='Enter your password'/>
+                            <div className='form_password'>
+                                <input
+                                    value={this.state.password}
+                                    type={this.state.showPass ? "text" : "password"}
+                                    className="form-control"
+                                    placeholder='Enter your password'
+                                    onChange={(e) => this.handleOnchangePass(e)}
+                                />
+                                {!this.state.showPass && <i className="fas fa-eye" onClick={() => this.handleShowPass(true)}></i>}
+                                {this.state.showPass && <i className="fas fa-eye-slash" onClick={() => this.handleShowPass(false)}></i>}
+                            </div>
+
+                        </div>
+                        <div className='message_err'>
+                            {this.state.errMessage}
                         </div>
                         <div className='col-12'>
-                        <button className='btn-login'>Login</button>
+                            <button className='btn-login' onClick={() => this.handleLogin()}>Login</button>
                         </div>
-                       
+
                         <div className='col-12'>
                             <span className='text-forgot'>Forgot your password?</span>
                         </div>
@@ -39,8 +93,8 @@ class Login extends Component {
                             Or Login With
                         </div>
                         <div className='text-other-login'>
-                        <i class="fab fa-google-plus-g google"></i>
-                        <i class="fab fa-facebook-square facebook"></i>
+                            <i className="fab fa-google-plus-g google"></i>
+                            <i className="fab fa-facebook-square facebook"></i>
                         </div>
                     </div>
                 </div>
@@ -58,8 +112,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         navigate: (path) => dispatch(push(path)),
-        adminLoginSuccess: (adminInfo) => dispatch(actions.adminLoginSuccess(adminInfo)),
-        adminLoginFail: () => dispatch(actions.adminLoginFail()),
+        // userLoginFail: () => dispatch(actions.adminLoginFail()),
+        userLoginSuccess: (userInfor) => dispatch(actions.userLoginSucces(userInfor))
     };
 };
 

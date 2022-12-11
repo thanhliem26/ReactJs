@@ -6,6 +6,7 @@
 
     .login-container {
         width: 400px;
+        max-width: 100%;
         position: fixed;
         left: 50%;
         transform: translateX(-50%);
@@ -21,6 +22,23 @@
                 font-size: 25px;
                 margin: 10px 0 20px;
                 text-align: center;
+            }
+
+            .form_password {
+                position: relative;
+
+                i {
+                    position: absolute;
+                    top: 50%;
+                    transform: translatey(-50%);
+                    right: 10px;
+                }
+            }
+
+            .message_err {
+                color: red;
+                text-align: center;
+                margin-bottom: 10px;
             }
 
             .login-input {
