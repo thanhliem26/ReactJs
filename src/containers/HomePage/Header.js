@@ -2,9 +2,16 @@ import React from "react";
 import './Header.scss';
 import { useSelector, useDispatch } from "react-redux";
 import { FormattedMessage } from "react-intl";
+import { handleChangeLanguage } from '../../store/actions/index';
 
 const HomePage = () => {
     const language = useSelector((state) => state.app.language);
+
+    const dispatch = useDispatch();
+
+    const handleChangeLg= (type) => {
+        dispatch(handleChangeLanguage(type))
+    }
 
     return (
         <>
@@ -36,8 +43,8 @@ const HomePage = () => {
                 <i className="fas fa-question"></i>
                 <span><FormattedMessage id="home-header.support"/></span>
                 <div className="language">
-                    <span>VN</span>
-                    <span>EN</span>
+                    <span onClick={() => handleChangeLg("vi")} className={language === "vi" ? "active_language" : ""}>VN</span>
+                    <span onClick={() => handleChangeLg("en")} className={language === "en" ? "active_language" : ""}>EN</span>
                 </div>
                 </div>
             </div>
