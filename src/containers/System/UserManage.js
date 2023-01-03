@@ -81,7 +81,7 @@ class UserManage extends Component {
                     className='btn-add'
                     onClick={this.handleAddNewUser}
                 >
-                    <i class="fas fa-plus"></i> Add user
+                    <i className="fas fa-plus"></i> Add user
                 </button>
                 <table id="customers" className='mt-4 ml-1 '>
                     <thead>

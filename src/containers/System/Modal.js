@@ -80,7 +80,7 @@ const ModalUser = ({ isOpen, toggle, handleSubmit, itemSelected, type = "create"
                             <input 
                                 type="email" 
                                 name="email" 
-                                class="form-control" 
+                                className="form-control" 
                                 placeholder="Email" 
                                 value={email}
                                 onChange={(e) => {
@@ -93,7 +93,7 @@ const ModalUser = ({ isOpen, toggle, handleSubmit, itemSelected, type = "create"
                             <input 
                                 type="password" 
                                 name="password" 
-                                class="form-control" 
+                                className="form-control" 
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
@@ -103,7 +103,7 @@ const ModalUser = ({ isOpen, toggle, handleSubmit, itemSelected, type = "create"
                             <input 
                                 type="text" 
                                 name="firstName" 
-                                class="form-control" 
+                                className="form-control" 
                                 value={firstName}
                                 onChange={(e) => setFirstName(e.target.value)}
                             />

@@ -20,4 +20,22 @@
             font-size: $base-size + 1px;
         }
     }
+
+    .container_round_left {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .language_vi {
+            margin: 0 5px;
+        }
+
+        .language_en {
+            margin: 0 5px;
+        }
+
+        .active {
+            color: yellow;
+        }
+    }
 }

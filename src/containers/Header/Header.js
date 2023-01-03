@@ -9,7 +9,7 @@ import './Header.scss';
 class Header extends Component {
 
     render() {
-        const { processLogout } = this.props;
+        const { processLogout, language, handleChangeLanguage } = this.props;
 
         return (
             <div className="header-container">
@@ -19,9 +19,20 @@ class Header extends Component {
                 </div>
 
                 {/* nút logout */}
-                <div className="btn btn-logout" onClick={processLogout}>
-                    <i className="fas fa-sign-out-alt"></i>
+                <div className='container_round_left'>
+                    <div className='languages'>
+                        <span className={`language_vi ${language === "vi" ? "active" : ""}`} onClick={() => handleChangeLanguage("vi")}>
+                            VI
+                        </span>
+                        <span className={`language_en ${language === "en" ? "active" : ""}`} onClick={() => handleChangeLanguage("en")}>
+                            EN
+                        </span>
+                    </div>
+                    <div className="btn btn-logout" onClick={processLogout} title="Logout">
+                        <i className="fas fa-sign-out-alt"></i>
+                    </div>
                 </div>
+
             </div>
         );
     }
@@ -30,13 +41,15 @@ class Header extends Component {
 
 const mapStateToProps = state => {
     return {
-        isLoggedIn: state.user.isLoggedIn
+        isLoggedIn: state.user.isLoggedIn,
+        language: state.app.language,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         processLogout: () => dispatch(actions.processLogout()),
+        handleChangeLanguage: (language) => dispatch(actions.handleChangeLanguage(language))
     };
 };
 

@@ -1,20 +1,9 @@
 import React from 'react';
-import './index.scss';
 import { Carousel } from 'antd';
 import Slider from "react-slick";
 import * as images from '../../../assets/index';
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 
 const Specialty = () => {
-  const carouselRef = React.useRef();
-  const SlickArrowLeft = ({ currentSlide, slideCount, ...props }) => {
-    return <i class="fas fa-chevron-circle-left prev" {...props}></i>
-  }
-
-  const SlickArrowRight  = ({ currentSlide, slideCount, ...props }) => {
-    return <i class="fas fa-chevron-circle-right next" {...props}></i>
-  }
 
   const settings = {
     dots: false,
@@ -24,8 +13,6 @@ const Specialty = () => {
     slidesToScroll: 1,
     initialSlide: 0,
     // autoplay: true,
-    prevArrow: <SlickArrowLeft />,
-    nextArrow: <SlickArrowRight />,
   };
 
 
@@ -70,10 +57,6 @@ const Specialty = () => {
             <span>Cham cuu</span>
           </div>
         </Slider>
-        {/* <div className='handle_slider'>
-          <i class="fas fa-chevron-circle-left prev"></i>
-          <i class="fas fa-chevron-circle-right next"></i>
-        </div> */}
       </div>
     </div>
   )
