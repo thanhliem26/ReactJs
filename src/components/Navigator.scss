@@ -69,6 +69,18 @@
                         }
                     }
                 }
+
+                &.active {
+                    background-color: orange;
+
+                    a {
+                        color: white;
+                    }
+
+                    &:hover {
+                        background-color: orange;
+                    }
+                }
                 &.active span {
                     font-weight: 500;
                     color: $colormain;

@@ -29,7 +29,6 @@ class Login extends Component {
     handleLogin = async () => {
         try {
             const data = await userService.handleLogin(this.state.username, this.state.password);
-            console.log("data", data)
             if(data.errCode !== 0) {
                 this.setState({errMessage: data.message});
             } else {

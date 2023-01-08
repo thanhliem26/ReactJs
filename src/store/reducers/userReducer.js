@@ -8,7 +8,6 @@ const initialState = {
 const userReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.USER_LOGIN_SUCCESS:
-            console.log("userInfo", action)
             return {
                 ...state,
                 isLoggedIn: true,

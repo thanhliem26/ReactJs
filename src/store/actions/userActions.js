@@ -6,7 +6,7 @@ export const addUserSuccess = () => ({
 
 export const userLoginSucces = (paload) => ({
     type: actionTypes.USER_LOGIN_SUCCESS,
-    userInfor: paload,
+    userInfo: paload,
 
 })
 

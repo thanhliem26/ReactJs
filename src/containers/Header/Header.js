@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from "react-intl";
 
 import * as actions from "../../store/actions";
 import Navigator from '../../components/Navigator';
@@ -9,7 +10,7 @@ import './Header.scss';
 class Header extends Component {
 
     render() {
-        const { processLogout, language, handleChangeLanguage } = this.props;
+        const { processLogout, language, handleChangeLanguage, userInfo } = this.props;
 
         return (
             <div className="header-container">
@@ -20,6 +21,7 @@ class Header extends Component {
 
                 {/* nút logout */}
                 <div className='container_round_left'>
+                    <span className='welcome'><FormattedMessage id="home-header.welcome"/>, {userInfo && `${userInfo.firstName}${userInfo.lastName}`}!</span>
                     <div className='languages'>
                         <span className={`language_vi ${language === "vi" ? "active" : ""}`} onClick={() => handleChangeLanguage("vi")}>
                             VI
@@ -43,6 +45,7 @@ const mapStateToProps = state => {
     return {
         isLoggedIn: state.user.isLoggedIn,
         language: state.app.language,
+        userInfo: state.user.userInfo
     };
 };
 
