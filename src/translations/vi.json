@@ -35,5 +35,18 @@
             "handbook": "Cam nang",
             "manage-handbook": "Quan li cam nang"
         }
+    },
+    "manage-user": {
+        "add": "Them moi nguoi dung",
+        "email": "Email",
+        "password": "Mat khau",
+        "firstName": "Ten",
+        "lastName": "Ho",
+        "phoneNumber": "So dien thoai",
+        "address": "Dia chi",
+        "gender": "Gioi tinh",
+        "roleId": "Chuc danh",
+        "positionId": "Vai tro",
+        "image": "Anh dai dien"
     }
 }

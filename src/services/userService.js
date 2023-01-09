@@ -28,3 +28,7 @@ export const handleDeleteUser = (id) => {
 export const handleUpdateUser = (data) => {
     return axios.put('/api/edit-user', {...data})
 }
+
+export const getAllCodeService = (typeInput) => {
+    return axios.get('/api/allcodes', {params: {type: typeInput}})
+}
