@@ -13,4 +13,23 @@
             color: white;
         }
     }
+
+    .label_upload {
+        border: 1px solid #eeeeee;
+        padding: 5px 15px;
+        cursor: pointer;
+        background: #b9b7b0;
+    }
+
+    .preview_container {
+
+        .privew-image {
+            width: 200px;
+            height: 70px;
+            margin-top: 10px;
+            background: center center no-repeat;
+            background-size: contain;
+            cursor: pointer;
+        }
+    }
 }
