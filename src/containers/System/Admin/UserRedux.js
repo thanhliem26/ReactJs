@@ -5,6 +5,9 @@ import { userService } from '../../../services/index';
 import { useSelector } from 'react-redux';
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
+import UserManage from './TableManageUser';
+import { toast } from 'react-toastify';
+import toBase64 from '../../../utils/convertBase64';
 
 const UserRedux = () => {
     const [genderList, setGenderList] = React.useState([]);
@@ -13,6 +16,41 @@ const UserRedux = () => {
     const [position, setPosition] = React.useState([]);
     const [isOpen, setIsOpen] = React.useState(false);
     const language = useSelector((state) => state.app.language);
+    const [isEdit, setIsEdit] = React.useState(false);
+    const [infomation, setInfomation] = React.useState({
+        email: "",
+        password: "",
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
+        address: "",
+        gender: "", 
+        roleId: "", 
+        positionId: "",
+        id: "",
+    })
+    const [avatar, setAvatar] = React.useState(null);
+
+    const [userList, setUserList] = React.useState(null);
+
+    React.useEffect(() => {
+        handleGetListUser()
+    }, [])
+
+    React.useEffect(() => {
+        const gender = genderList?.[0]?.key;
+        const roleF = role?.[0]?.key;
+        const positn = position?.[0]?.key;
+
+        setInfomation((prev) => {
+            return {
+                ...prev,
+                gender: gender,
+                roleId: roleF,
+                positionId: positn
+            }
+        })
+    }, [genderList, role, position])
 
     React.useEffect(() => {
         handleGetAllCode("gender")
@@ -39,12 +77,118 @@ const UserRedux = () => {
         }
     }
 
-    const handleChangeImage = (e) => {
+    const handleChangeImage = async (e) => {
         const data = e.target.files;
         const file = data[0];
-
+        const image = await toBase64(file);
+      
         const objectURL = URL.createObjectURL(file);
+     
+        setAvatar(image)
         setPreviewImg(objectURL);
+    }
+
+    const handleGetListUser = async () => {
+        try {
+            const response = await userService.getAllUser("ALL");
+            if (response && response.errCode === 0) {
+                setUserList(response.users)
+            }
+        } catch (e) {
+            console.log("e", e)
+        }
+    }
+
+    const handleSumbit = async () => {
+        let isValid = true;
+        
+        for(let ele in infomation) {
+            if(!infomation[ele]) {
+                if(ele === "id") continue;
+                alert(`${ele} is missing!`);
+                isValid = false;
+                return;
+            }
+        }
+
+        if(isValid) {
+            const res = await userService.addNewUser(infomation, avatar);
+            if(res.errCode === 0) {
+                toast.success("Create user succes ");
+                handleGetListUser()
+            } else {
+                alert(res.message);
+            }
+            console.log("🚀 ~ res", res)
+        }
+    }
+
+    const handleUpdateUser = async () => {
+        let isValid = true;
+        
+        for(let ele in infomation) {
+            if(!infomation[ele]) {
+                alert(`${ele} is missing!`);
+                isValid = false;
+                return;
+            }
+        }
+
+        if(isValid) {
+            const res = await userService.handleUpdateUser(infomation);
+            if(res.errCode === 0) {
+                toast.success("Update user succes ");
+                handleGetListUser()
+            } else {
+                alert(res.message);
+            }
+            console.log("🚀 ~ res", res)
+        }
+
+        const dataInfo = {
+            email: "",
+            password: "",
+            firstName: "",
+            lastName: "",
+            phoneNumber: "",
+            address: "",
+            gender: genderList?.[0]?.key, 
+            roleId: role?.[0]?.key, 
+            positionId: position?.[0]?.key,
+            id: "",
+            // image: ""
+        }
+        setInfomation(dataInfo)
+        setIsEdit(false);
+    }
+    
+    const handleChangeInput = (e, key) => {
+        const val = e.target.value;
+        setInfomation((prev) => {
+            return {
+                ...prev,
+                [key]: val,
+            }
+
+        })
+    }
+
+    const handleSetEdit = (data) => {
+        const dataInfo = {
+            email: data.email,
+            // password: data.password,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            phoneNumber: data.phoneNumber,
+            address: data.address,
+            gender: data.gender, 
+            roleId: data.roleId, 
+            positionId: data.positionId,
+            id: data.id,
+            // image: ""
+        }
+        setInfomation(dataInfo);
+        setIsEdit(true)
     }
 
     return (
@@ -58,40 +202,40 @@ const UserRedux = () => {
                     <div className='row'>
                         <div className="form-group col-md-3">
                             <label for="inputEmail4"><FormattedMessage id="manage-user.email" /></label>
-                            <input type="email" className="form-control" id="inputEmail4" placeholder="Email" />
+                            <input disabled={isEdit} onChange={(e) => handleChangeInput(e, "email")} value={infomation.email} type="email" className="form-control" id="inputEmail4" placeholder="Email" />
                         </div>
                         <div className="form-group col-md-3">
                             <label for="inputPassword4"><FormattedMessage id="manage-user.password" /></label>
-                            <input type="password" className="form-control" id="inputPassword4" placeholder="Password" />
+                            <input disabled={isEdit} onChange={(e) => handleChangeInput(e, "password")} value={infomation.password}  type="password" className="form-control" id="inputPassword4" placeholder="Password" />
                         </div>
                         <div className="form-group col-md-3">
                             <label for="inputAddress"><FormattedMessage id="manage-user.firstName" /></label>
-                            <input type="text" className="form-control" id="inputAddress" placeholder="1234 Main St" />
+                            <input onChange={(e) => handleChangeInput(e, "firstName")} value={infomation.firstName}  type="text" className="form-control" id="inputAddress" placeholder="1234 Main St" />
                         </div>
                         <div className="form-group col-md-3">
                             <label for="inputAddress2"><FormattedMessage id="manage-user.lastName" /></label>
-                            <input type="text" className="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor" />
+                            <input onChange={(e) => handleChangeInput(e, "lastName")}  value={infomation.lastName}  type="text" className="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor" />
                         </div>
                         <div className="form-group col-md-4">
                             <label for="inputCity"><FormattedMessage id="manage-user.phoneNumber" /></label>
-                            <input type="text" className="form-control" id="inputCity" />
+                            <input onChange={(e) => handleChangeInput(e, "phoneNumber")} value={infomation.phoneNumber}  type="text" className="form-control" id="inputCity" />
                         </div>
                         <div className="form-group col-md-8">
                             <label for="inputCity"><FormattedMessage id="manage-user.address" /></label>
-                            <input type="text" className="form-control" id="inputCity" />
+                            <input onChange={(e) => handleChangeInput(e, "address")} value={infomation.address}  type="text" className="form-control" id="inputCity" />
                         </div>
 
                         <div className="form-group col-md-3">
                             <label for="inputState"><FormattedMessage id="manage-user.gender" /></label>
-                            <select id="inputState" className="form-control">
+                            <select onChange={(e) => handleChangeInput(e, "gender")} alue={infomation.gender}  id="inputState" className="form-control">
                                 {genderList && genderList.map((item, index) => {
-                                    return <option key={index}> {language === "vi" ? item.valueVi : item.valueEn}</option>
+                                    return <option key={index} value={item.key}> {language === "vi" ? item.valueVi : item.valueEn}</option>
                                 })}
                             </select>
                         </div>
                         <div className="form-group col-md-3">
                             <label for="inputState"><FormattedMessage id="manage-user.roleId" /></label>
-                            <select id="inputState" className="form-control">
+                            <select onChange={(e) => handleChangeInput(e, "roleId")} value={infomation.roleId}  id="inputState" className="form-control">
                                 {role && role.map((item, index) => {
                                     return <option key={index} value={item.key}> {language === "vi" ? item.valueVi : item.valueEn}</option>
                                 })}
@@ -99,7 +243,7 @@ const UserRedux = () => {
                         </div>
                         <div className="form-group col-md-3">
                             <label for="inputState"><FormattedMessage id="manage-user.positionId" /></label>
-                            <select id="inputState" className="form-control">
+                            <select onChange={(e) => handleChangeInput(e, "positionId")}  value={infomation.positionId}  id="inputState" className="form-control">
                                 {position && position.map((item, index) => {
                                     return <option key={index} value={item.key}> {language === "vi" ? item.valueVi : item.valueEn}</option>
                                 })}
@@ -108,7 +252,7 @@ const UserRedux = () => {
                         <div className="form-group col-md-3">
                             <label for="inputZip"><FormattedMessage id="manage-user.image" /></label>
                             <div className='preview_container'>
-                                <input type="file" className="form-control" id="previewImg" hidden onChange={(e) => {
+                                <input value={infomation.image}  type="file" className="form-control" id="previewImg" hidden onChange={(e) => {
                                     handleChangeImage(e)
                                 }} />
                                 <label htmlFor='previewImg' className='label_upload' >Tai anh &nbsp;<i className="fas fa-upload"></i></label>
@@ -128,9 +272,12 @@ const UserRedux = () => {
                         {isOpen && <Lightbox
                             mainSrc={previewImg}
                             onCloseRequest={() => setIsOpen(false)}
-                        />}</div>
-
-                    <button type="submit" className='btn_submit'>Submit</button>
+                        />}
+                    </div>
+                    {isEdit ?
+                    <button type="submit" className='btn_submit' style={{backgroundColor: "orange"}} onClick={handleUpdateUser}>Submit Edit</button> :
+                    <button type="submit" className='btn_submit' onClick={handleSumbit}>Submit</button>}
+                    <UserManage userList={userList} handleGetListUser={handleGetListUser} setEdit={handleSetEdit}/>
                 </div>
             </div>
         </div>

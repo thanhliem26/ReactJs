@@ -8,7 +8,7 @@ export const getAllUser = (inputID) => {
     return axios.get('/api/get-all-user', { params: { id: inputID } })
 }
 
-export const addNewUser = (data) => {
+export const addNewUser = (data, avatar) => {
     return axios.post('/api/create-user', 
     {
         email: data.email, 
@@ -18,6 +18,9 @@ export const addNewUser = (data) => {
         address: data.address,
         gender: data.gender,
         phoneNumber: data.phoneNumber,
+        roleId: data.roleId, 
+        positionId: data.positionId,
+        image: avatar,
     })
 }
 
