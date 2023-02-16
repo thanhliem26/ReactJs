@@ -135,7 +135,7 @@ const UserRedux = () => {
         }
 
         if(isValid) {
-            const res = await userService.handleUpdateUser(infomation);
+            const res = await userService.handleUpdateUser(infomation, previewImg);
             if(res.errCode === 0) {
                 toast.success("Update user succes ");
                 handleGetListUser()
@@ -159,6 +159,7 @@ const UserRedux = () => {
             // image: ""
         }
         setInfomation(dataInfo)
+        setPreviewImg('')
         setIsEdit(false);
     }
     
@@ -174,6 +175,15 @@ const UserRedux = () => {
     }
 
     const handleSetEdit = (data) => {
+
+        let imageBase64 = '';
+       
+        if(data.image) {
+            imageBase64 = new Buffer(data.image, 'base64').toString('binary');
+        }
+
+        setPreviewImg(imageBase64)
+      
         const dataInfo = {
             email: data.email,
             // password: data.password,
