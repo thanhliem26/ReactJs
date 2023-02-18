@@ -35,3 +35,7 @@ export const handleUpdateUser = (data, avatar) => {
 export const getAllCodeService = (typeInput) => {
     return axios.get('/api/allcodes', {params: {type: typeInput}})
 }
+
+export const getTopDocTorService = (limit = 10) => {
+    return axios.get(`/api/top-doctor-home?limit=${limit}`)
+}

@@ -38,9 +38,9 @@ const UserRedux = () => {
     }, [])
 
     React.useEffect(() => {
-        const gender = genderList?.[0]?.key;
-        const roleF = role?.[0]?.key;
-        const positn = position?.[0]?.key;
+        const gender = genderList?.[0]?.keyMap;
+        const roleF = role?.[0]?.keyMap;
+        const positn = position?.[0]?.keyMap;
 
         setInfomation((prev) => {
             return {
@@ -152,9 +152,9 @@ const UserRedux = () => {
             lastName: "",
             phoneNumber: "",
             address: "",
-            gender: genderList?.[0]?.key, 
-            roleId: role?.[0]?.key, 
-            positionId: position?.[0]?.key,
+            gender: genderList?.[0]?.keyMap, 
+            roleId: role?.[0]?.keyMap, 
+            positionId: position?.[0]?.keyMap,
             id: "",
             // image: ""
         }
@@ -239,7 +239,7 @@ const UserRedux = () => {
                             <label for="inputState"><FormattedMessage id="manage-user.gender" /></label>
                             <select onChange={(e) => handleChangeInput(e, "gender")} alue={infomation.gender}  id="inputState" className="form-control">
                                 {genderList && genderList.map((item, index) => {
-                                    return <option key={index} value={item.key}> {language === "vi" ? item.valueVi : item.valueEn}</option>
+                                    return <option key={index} value={item.keyMap}> {language === "vi" ? item.valueVi : item.valueEn}</option>
                                 })}
                             </select>
                         </div>
@@ -247,7 +247,7 @@ const UserRedux = () => {
                             <label for="inputState"><FormattedMessage id="manage-user.roleId" /></label>
                             <select onChange={(e) => handleChangeInput(e, "roleId")} value={infomation.roleId}  id="inputState" className="form-control">
                                 {role && role.map((item, index) => {
-                                    return <option key={index} value={item.key}> {language === "vi" ? item.valueVi : item.valueEn}</option>
+                                    return <option key={index} value={item.keyMap}> {language === "vi" ? item.valueVi : item.valueEn}</option>
                                 })}
                             </select>
                         </div>
@@ -255,7 +255,7 @@ const UserRedux = () => {
                             <label for="inputState"><FormattedMessage id="manage-user.positionId" /></label>
                             <select onChange={(e) => handleChangeInput(e, "positionId")}  value={infomation.positionId}  id="inputState" className="form-control">
                                 {position && position.map((item, index) => {
-                                    return <option key={index} value={item.key}> {language === "vi" ? item.valueVi : item.valueEn}</option>
+                                    return <option key={index} value={item.keyMap}> {language === "vi" ? item.valueVi : item.valueEn}</option>
                                 })}
                             </select>
                         </div>

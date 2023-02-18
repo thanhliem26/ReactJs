@@ -1,8 +1,32 @@
 import React from 'react';
 import Slider from "react-slick";
 import * as images from '../../../assets/index';
+import { userService } from '../../../services'
+import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 
 const OutstandingDoctor = () => {
+  const [doctorList, setDoctorList] = React.useState([]);
+
+  const language = useSelector((state) => state.app.language);
+  console.log("🚀 ~ doctorList", doctorList)
+
+  React.useEffect(() => {
+    new Promise(async (resolve, reject) => {
+      const result = await userService.getTopDocTorService(10);
+      try {
+        if(result.errCode === 0) {
+          setDoctorList(result.data)
+        } else {
+          toast.error(result.message);
+        } 
+      } catch(e) {
+        toast.error(e);
+      }
+     
+    })
+  }, [])
+
 
     const settings = {
         dots: false,
@@ -22,7 +46,21 @@ const OutstandingDoctor = () => {
       </div>
       <div className='specialty-images'>
         <Slider {...settings}>
-          <div className="image_hospital">
+          {doctorList.map((item, index) => {
+            const nameVi = `${item.positionData.valueVi} ${item.firstName} ${item.lastName}`;
+            const nameEn = `${item.positionData.valueEn} ${item.firstName} ${item.lastName}`;
+            const imageBase64 = item.image ? 
+            new Buffer(item.image, 'base64').toString('binary') : 
+            images.backgroundHospital;
+
+            return (
+              <div key={index} className="image_hospital">
+                <img src={imageBase64} />
+                <span>{language === "vi" ? nameVi : nameEn}</span>
+              </div>
+            )
+          })}
+          {/* <div className="image_hospital">
             <img src={images.backgroundHospital} />
             <span>Thac si, Bac si Nguyen Viet Chung</span>
           </div>
@@ -53,7 +91,7 @@ const OutstandingDoctor = () => {
           <div className="image_hospital">
             <img src={images.backgroundHospital} />
             <span>Pho giao su, Tien si, Bac si Nguyen Thi Hoa An</span>
-          </div>
+          </div> */}
         </Slider>
       </div>
     </div>
