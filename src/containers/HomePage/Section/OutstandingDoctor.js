@@ -4,12 +4,14 @@ import * as images from '../../../assets/index';
 import { userService } from '../../../services'
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
+import { useHistory } from 'react-router';
 
 const OutstandingDoctor = () => {
   const [doctorList, setDoctorList] = React.useState([]);
 
   const language = useSelector((state) => state.app.language);
-  console.log("🚀 ~ doctorList", doctorList)
+  const history = useHistory();
 
   React.useEffect(() => {
     new Promise(async (resolve, reject) => {
@@ -27,8 +29,7 @@ const OutstandingDoctor = () => {
     })
   }, [])
 
-
-    const settings = {
+  const settings = {
         dots: false,
         infinite: false,
         speed: 500,
@@ -36,13 +37,17 @@ const OutstandingDoctor = () => {
         slidesToScroll: 1,
         initialSlide: 0,
         // autoplay: true,
-      };
+  };
+
+  const handleRederiect = (item) => {
+    history.push(`/detail-doctor/${item.id}`)
+  }
 
   return (
     <div className='specialty'>
       <div className='specialty-title'>
-        <h4>Bác sĩ nổi bật tuần qua</h4>
-        <button>Xem them</button>
+        <h4><FormattedMessage id="homepage.out-standing-doctor"/></h4>
+        <button><FormattedMessage id="homepage.more-info"/></button>
       </div>
       <div className='specialty-images'>
         <Slider {...settings}>
@@ -55,43 +60,11 @@ const OutstandingDoctor = () => {
 
             return (
               <div key={index} className="image_hospital">
-                <img src={imageBase64} />
+                <img src={imageBase64} onClick={() => handleRederiect(item)}/>
                 <span>{language === "vi" ? nameVi : nameEn}</span>
               </div>
             )
           })}
-          {/* <div className="image_hospital">
-            <img src={images.backgroundHospital} />
-            <span>Thac si, Bac si Nguyen Viet Chung</span>
-          </div>
-          <div className="image_hospital">
-            <img src={images.backgroundHospital} />
-            <span>Kham Tai Trung Tam Tieu Hoa Doctor</span>
-          </div>
-          <div className="image_hospital">
-            <img src={images.backgroundHospital} />
-            <span>Bac si Chuyen khoa Vo Tran Thanh</span>
-          </div>
-          <div className="image_hospital">
-            <img src={images.backgroundHospital} />
-            <span>Kham Nam hoc, Benh vien Nam hoc va hien muon Ha Noi</span>
-          </div>
-          <div className="image_hospital">
-            <img src={images.backgroundHospital} />
-            <span>Pho giao su, Tien Su, Bac si cao cap Nguyen Duy Hung </span>
-          </div>
-          <div className="image_hospital">
-            <img src={images.backgroundHospital} />
-            <span>Bac si chuye khoa Tran Minh Khuyen</span>
-          </div>
-          <div className="image_hospital">
-            <img src={images.backgroundHospital} />
-            <span>Bac si chuyen khoa Phi Thi Tuyet Nga</span>
-          </div>
-          <div className="image_hospital">
-            <img src={images.backgroundHospital} />
-            <span>Pho giao su, Tien si, Bac si Nguyen Thi Hoa An</span>
-          </div> */}
         </Slider>
       </div>
     </div>

@@ -12,7 +12,7 @@
         "welcome": "Welcome"
     },
     "banner": {
-        "medical-background": "MEDICAL BACKGROUND",
+        "medical-background": "MEDICAL PLATFORM",
         "headlth-care": "COMPREHENSIVE HEALTH CARE",
         "child-1": "Specialized examination",
         "child-2": "Remote examination",
@@ -48,5 +48,9 @@
         "roleId": "RoleId",
         "positionId": "PositionId",
         "image": "Image"
+    },
+    "homepage": {
+        "out-standing-doctor": "Last week's featured doctor",
+        "more-info": "More info"
     }
 }

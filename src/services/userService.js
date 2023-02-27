@@ -39,3 +39,15 @@ export const getAllCodeService = (typeInput) => {
 export const getTopDocTorService = (limit = 10) => {
     return axios.get(`/api/top-doctor-home?limit=${limit}`)
 }
+
+export const getAllDoctor = () => {
+    return axios.get('/api/get-all-doctors')
+}
+
+export const saveInfoDoctor = (data) => {
+    return axios.post('api/save-info-doctor', {...data})
+}
+
+export const getDetailDocTor = (idDoctor) => {
+    return axios.get('/api/get-detail-doctor-by-id', { params: {id: idDoctor}})
+}

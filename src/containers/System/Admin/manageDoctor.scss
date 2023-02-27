@@ -1,0 +1,45 @@
+.manage-doctor-container {
+    padding: 0 25px;
+
+    .mt_15 {
+        margin-top: 15px;
+    }
+
+    .manage-doctor-title {
+        padding: 20px 0;
+        font-size: 18px;
+        font-weight: 700;
+        text-align: center;
+    }
+
+    .more-info {
+        display: flex;
+
+        .content-left {
+            flex: 1;
+            padding: 10px 20px 10px 0;
+        }
+
+        .content-right {
+            flex: 1;
+        }
+    }
+
+    .form_btn {
+        display: flex;
+        justify-content: center;
+
+        .btn_save {
+            margin: 20px 0;
+            display: flex;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #069132;
+            color: white;
+            outline: none;
+        }
+    }
+
+
+}

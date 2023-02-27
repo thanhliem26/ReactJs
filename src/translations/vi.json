@@ -48,5 +48,9 @@
         "roleId": "Chuc danh",
         "positionId": "Vai tro",
         "image": "Anh dai dien"
+    },
+    "homepage": {
+        "out-standing-doctor": "Bác sĩ nổi bật tuần qua",
+        "more-info": "Xem thêm"
     }
 }
