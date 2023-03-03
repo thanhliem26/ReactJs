@@ -52,7 +52,7 @@ class Login extends Component {
       <div className="login-background">
         <div className="login-container">
           <div className="login-content row ">
-            <div className="col-12 text-login">Login</div>
+            <div className="col-12 text-login">Login haha</div>
             <div className="col-12 form-group login-input">
               <label>Username:</label>
               <input
