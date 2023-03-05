@@ -3,9 +3,12 @@ import './Header.scss';
 import { useSelector, useDispatch } from "react-redux";
 import { FormattedMessage } from "react-intl";
 import { handleChangeLanguage } from '../../store/actions/index';
+import { useHistory } from "react-router";
 
 const HomePage = ({ isShowBack = true }) => {
     const language = useSelector((state) => state.app.language);
+
+    const history = useHistory();
 
     const dispatch = useDispatch();
 
@@ -19,7 +22,7 @@ const HomePage = ({ isShowBack = true }) => {
                 <div className="home_header_content">
                     <div className="header_logo">
                         <i className="fas fa-bars"></i>
-                        <div className="header_logo_img"></div>
+                        <div onClick={() => history.push('/home')} className="header_logo_img"></div>
                     </div>
                     <div className="header_handle">
                         <div className="child_content">

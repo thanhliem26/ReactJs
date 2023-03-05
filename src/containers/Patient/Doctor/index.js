@@ -4,6 +4,8 @@ import { userService } from '../../../services'
 import HeaderHome from '../../HomePage/Header';
 import style from './index.scss';
 
+import DoctorSchedule from './DoctorSchedule';
+
 import { Row, Col } from 'antd';
 import { useSelector } from 'react-redux';
 
@@ -53,7 +55,12 @@ const DetailDoctor = () => {
             </Col>
           </Row>
         </div>
-        <div className='schedule-doctor'></div>
+        <div className='schedule-doctor'>
+          <div className="content_left">
+            <DoctorSchedule doctorId={id}/>
+          </div>
+          <div className="content_right"></div>
+        </div>
         <div className='detail-info-doctor'>
           <div className='render_text' dangerouslySetInnerHTML={{__html: infoDoctor?.Markdown?.contentHTML}}></div>
         </div>

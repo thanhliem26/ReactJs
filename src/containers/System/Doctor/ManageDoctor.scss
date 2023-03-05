@@ -1,0 +1,30 @@
+.manage_shedule-container {
+    .title {
+        text-transform: uppercase;
+        margin-top: 30px;
+    }
+
+    .mt_15 {
+        margin-top: 15px;
+    }
+
+    .active {
+        background-color: #bebe02c7 !important;
+    }
+
+    .pick_hour-container {
+        margin-top: 20px;
+
+        .btn-schedule {
+            border: 1px solid;
+            padding: 0 10px;
+            margin: 0 5px;
+            background-color: grey;
+            color: white;
+
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+    }
+}

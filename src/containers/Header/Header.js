@@ -4,10 +4,31 @@ import { FormattedMessage } from "react-intl";
 
 import * as actions from "../../store/actions";
 import Navigator from '../../components/Navigator';
-import { adminMenu } from './menuApp';
+import { adminMenu, doctorMenu } from './menuApp';
 import './Header.scss';
+import _ from 'lodash';
 
 class Header extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            menuApp: [],
+        }
+    }
+
+    componentDidMount() {
+        const { userInfo } = this.props;
+       
+        if(userInfo && !_.isEmpty(userInfo)) {
+            const role = userInfo.roleId;
+
+            if(role === "R1") {
+                this.setState({menuApp: adminMenu})
+            } else {
+                this.setState({menuApp: doctorMenu})
+            }
+        }
+    }
 
     render() {
         const { processLogout, language, handleChangeLanguage, userInfo } = this.props;
@@ -16,7 +37,7 @@ class Header extends Component {
             <div className="header-container">
                 {/* thanh navigator */}
                 <div className="header-tabs-container">
-                    <Navigator menus={adminMenu} />
+                    <Navigator menus={this.state.menuApp} />
                 </div>
 
                 {/* nút logout */}
