@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router';
 import { userService } from '../../../services'
 import HeaderHome from '../../HomePage/Header';
+import BookingModal from '../Modal/BookingModal';
 import style from './index.scss';
 
 import DoctorSchedule from './DoctorSchedule';
@@ -11,6 +12,9 @@ import { useSelector } from 'react-redux';
 
 const DetailDoctor = () => {
   const [infoDoctor, setInfoDoctor] = React.useState({});
+  const [isOpenModal, setIsOpenModal] = React.useState(false);
+  const [selected, setSelected] = React.useState(null);
+
   const language = useSelector((state) => state.app.language);
 
   const { id } = useParams();
@@ -36,9 +40,24 @@ const DetailDoctor = () => {
 
   }, [infoDoctor])
 
+  const handleSelected = (item) => {
+    setSelected(item);
+    setIsOpenModal(true);
+  }
+
   return (
     <>
       <HeaderHome isShowBack={false} />
+      <BookingModal 
+        isOpen={isOpenModal}
+        toggle={() => setIsOpenModal(!isOpenModal)}
+        itemSelected={selected}
+        image={imageDoctor}
+        description={infoDoctor?.Markdown?.description}
+        infoDoctor={infoDoctor}
+        id={id}
+        // type={this.state.type}
+      />
       <div className={`doctor-detail-container`}>
         <div className='intro-doctor'>
           <Row gutter={[16, 16]}>
@@ -57,9 +76,14 @@ const DetailDoctor = () => {
         </div>
         <div className='schedule-doctor'>
           <div className="content_left">
-            <DoctorSchedule doctorId={id}/>
+            <DoctorSchedule doctorId={id} handleSelected={handleSelected}/>
           </div>
-          <div className="content_right"></div>
+          <div className="content_right">
+         <p> ĐỊA CHỈ KHÁM:</p>
+         <p>{infoDoctor.addressClinic}</p>
+         <p> GIÁ KHÁM:</p>
+         <p>{infoDoctor.provinceId  }</p>
+          </div>
         </div>
         <div className='detail-info-doctor'>
           <div className='render_text' dangerouslySetInnerHTML={{__html: infoDoctor?.Markdown?.contentHTML}}></div>

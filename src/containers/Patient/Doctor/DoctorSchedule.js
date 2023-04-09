@@ -10,8 +10,11 @@ import Select from "react-select";
 import { isEmpty } from "lodash";
 import moment from "moment";
 
-const DoctorSchedule = ({doctorId}) => {
+const DoctorSchedule = ({ doctorId, handleSelected }) => {
   const [allDay, setAllDay] = React.useState([]);
+  const [timer, setTimer] = React.useState([]);
+
+  const language = useSelector((state) => state.app.language);
 
   React.useEffect(() => {
     const arrDate = [];
@@ -20,7 +23,10 @@ const DoctorSchedule = ({doctorId}) => {
       let object = {};
 
       object.label = moment(new Date()).add(i, "days").format("dddd - DD/MM");
-      object.value = moment(new Date()).add(i, "days").startOf("day").format('YYYY-MM-DD HH:mm:ss');
+      object.value = moment(new Date())
+        .add(i, "days")
+        .startOf("day")
+        .format("YYYY-MM-DD HH:mm:ss");
 
       arrDate.push(object);
     }
@@ -28,23 +34,41 @@ const DoctorSchedule = ({doctorId}) => {
     setAllDay(arrDate);
   }, []);
 
+
   const getScheduleByDate = async (option) => {
-    console.log("date", option)
-    const data = await userService.getScheduleByDate(doctorId, option.value);
-    console.log("🚀 ~ data:", data)
-  }
+    try {
+      const { errCode, data} = await userService.getScheduleByDate(doctorId, option.value);
+      if(errCode === 0) {
+        setTimer(data)
+      }
+    } catch(e) {
+      throw new Error(e)
+    }
+    
+  };
 
   return (
     <div className="doctor_schedule_container">
       <div className="all_schedule">
         <Select
-          // value={selectedOption}
           onChange={getScheduleByDate}
           options={allDay}
-
-          // className="mt_15"
         />
       </div>
+      <div className="col-12 pick_hour-container">
+          {!isEmpty(timer) ? timer.map((item, index) => {
+            const { timeData } = item;
+            return (
+              <button
+                className="active btn btn-schedule"
+                key={index}
+                onClick={() => handleSelected(item)}
+              >
+                {timeData[language === "vi" ? "valueVi" : "valueEn"]}
+              </button>
+            );
+          }) : "Ngày này hiện chưa có lịch hẹn"}
+        </div>
     </div>
   );
 };

@@ -112,11 +112,8 @@ const ManageDoctor = () => {
            } else {
             toast.error(data.message);
            }
-        }
-       
-       
+        }     
     }
-
         return (
             <div className="manage_shedule-container">
                 <div className='title'>

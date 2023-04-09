@@ -2,8 +2,13 @@ import React from 'react';
 import { Carousel } from 'antd';
 import Slider from "react-slick";
 import * as images from '../../../assets/index';
+import { userService } from "../../../services/index";
+import { FormattedMessage } from 'react-intl';
 
 const Specialty = () => {
+
+  const [data, setData] = React.useState([]);
+  console.log("🚀 ~ data:", data)
 
   const settings = {
     dots: false,
@@ -15,47 +20,37 @@ const Specialty = () => {
     // autoplay: true,
   };
 
+  React.useEffect(() => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await userService.getAllSpecialty();
+
+        if(response.errCode === 0) {
+          setData(response.data)
+        }
+      } catch(e) {
+        reject(e)
+      }
+    })
+  }, [])
+
 
   return (
     <div className='specialty'>
       <div className='specialty-title'>
-        <h4>Chuyên khoa phổ biến</h4>
-        <button>Xem them</button>
+        <h4><FormattedMessage id="homepage.specialty-popular"/></h4>
+        <button><FormattedMessage id="homepage.more-info"/></button>
       </div>
       <div className='specialty-images'>
         <Slider {...settings}>
-          <div className="image_hospital">
-            <img src={images.hospital1} />
-            <span>Co xuong khop</span>
-          </div>
-          <div className="image_hospital">
-            <img src={images.hospital2} />
-            <span>Than Kinh</span>
-          </div>
-          <div className="image_hospital">
-            <img src={images.hospital3} />
-            <span>Tieu hoa</span>
-          </div>
-          <div className="image_hospital">
-            <img src={images.hospital4} />
-            <span>Tim mach</span>
-          </div>
-          <div className="image_hospital">
-            <img src={images.hospital5} />
-            <span>Tai mui hong</span>
-          </div>
-          <div className="image_hospital">
-            <img src={images.hospital6} />
-            <span>Cot song</span>
-          </div>
-          <div className="image_hospital">
-            <img src={images.hospital7} />
-            <span>Y hoc co truyen</span>
-          </div>
-          <div className="image_hospital">
-            <img src={images.hospital8} />
-            <span>Cham cuu</span>
-          </div>
+          {data.map((item) => {
+            return (
+              <div className="image_hospital">
+              <img src={item.image} />
+              <span>{item.name}</span>
+            </div>
+            )
+          })}
         </Slider>
       </div>
     </div>

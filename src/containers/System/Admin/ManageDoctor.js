@@ -19,7 +19,6 @@ import Select from 'react-select';
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
 class ManageDoctor extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -30,6 +29,16 @@ class ManageDoctor extends Component {
             description: '',
             doctors: [],
             isEdit: false,
+            //save info doctor
+            priceList: [],
+            paymentList: [],
+            provinceList: [],
+            selectedPrice: '',
+            selectedPayment: '',
+            selectedProvince: '',
+            nameClinic: '',
+            addressClinic: '',
+            note: '',
         }
     }
 
@@ -50,6 +59,50 @@ class ManageDoctor extends Component {
             throw new Error(e);
         }
 
+        this.handleGetAllCode("price")
+        .then(res => {
+            const priceList = res.map((item) => {
+                return {
+                    value: item.id,
+                    label:  item.valueEn,
+                }
+            })
+
+            this.setState({priceList: priceList})
+        })
+
+        this.handleGetAllCode("payment")
+        .then(res => {
+             const paymentList = res.map((item) => {
+                return {
+                    value: item.id,
+                    label: item.valueEn,
+                }
+            })
+
+            this.setState({paymentList: paymentList})
+        })
+
+        this.handleGetAllCode("province")
+        .then(res => {
+            const provinceList = res.map((item) => {
+                return {
+                    value: item.id,
+                    label: item.valueEn,
+                }
+            })
+
+            this.setState({provinceList: provinceList})
+        })
+    }
+    
+    handleGetAllCode = async (type) => {
+        try {
+            const result = await userService.getAllCodeService(type);
+            return result.data;
+        } catch (e) {
+            console.log("error", e)
+        }
     }
 
     // Finish!
@@ -73,14 +126,32 @@ class ManageDoctor extends Component {
     handleChange = async (selectedOption) => {
         try {
             const { errCode, data } = await userService.getDetailDocTor(selectedOption.value);
+            const { priceList, paymentList, provinceList } = this.state;
             if (errCode === 0) {
+                const priceSL = priceList.find((item) => {
+                    return item.value == data.priceId;
+                })
+
+                const paymentSL = paymentList.find((item) => {
+                    return item.value == data.paymentId;
+                })
+
+                const provinceSL = provinceList.find((item) => {
+                    return item.value == data.provinceId;
+                })
+
                 this.setState({
-                    selectedOption,
+                    selectedOption: selectedOption.value,
                     id: selectedOption.value,
                     contentHTML: data?.Markdown?.contentHTML ? data?.Markdown?.contentHTML : "",
                     contentMarkdown: data?.Markdown?.contentMarkdown ? data?.Markdown?.contentMarkdown : "",
                     description: data?.Markdown?.description ? data?.Markdown?.description : "",
                     isEdit: true,
+                    addressClinic: data?.addressClinic,
+                    selectedPrice: priceSL,
+                    selectedPayment: paymentSL,
+                    selectedProvince: provinceSL,
+                    note: data?.note,
                 })
             }
         } catch (e) {
@@ -93,15 +164,15 @@ class ManageDoctor extends Component {
     }
 
     render() {
-
+        console.log("this state", this.state)
         return (
             <div className="manage-doctor-container">
                 <div className='manage-doctor-title'>
-                    Tạo thêm thông tin doctor
+                    <FormattedMessage id="manage_doctor.title"/>
                 </div>
                 <div className='more-info'>
                     <div className='content-left'>
-                        <label>Thong tin giới thiệu</label>
+                        <label> <FormattedMessage id="manage_doctor.introductory"/></label>
                         <textarea
                             className='form-control'
                             onChange={(e) => this.handleOnChangeDesc(e)}
@@ -110,13 +181,54 @@ class ManageDoctor extends Component {
                         </textarea>
                     </div>
                     <div className='content-right'>
-                        <label>Chon bac si</label>
+                        <label> <FormattedMessage id="manage_doctor.choose_doctor"/></label>
                         <Select
                             value={this.state.selectedOption}
                             onChange={this.handleChange}
                             options={this.state.doctors}
                             className="mt_15"
                         />
+                    </div>
+                </div>
+                <div className='more_info-doctor'>
+                <div className='row'>
+                        <div className="form-group col-md-4">
+                            <label for="inputEmail4"> <FormattedMessage id="manage_doctor.choose_price"/></label>
+                            <Select
+                                value={this.state.selectedPrice}
+                                onChange={(selectedPrice) => {this.setState({selectedPrice: selectedPrice})}}
+                                options={this.state.priceList}
+                            />
+                        </div>
+                        <div className="form-group col-md-4">
+                            <label for="inputEmail4"> <FormattedMessage id="manage_doctor.select_payment_method"/></label>
+                            <Select
+                                value={this.state.selectedPayment}
+                                onChange={(selectedPayment) => {this.setState({selectedPayment: selectedPayment})}}
+                                options={this.state.paymentList}
+                            />
+                        </div>
+                        <div className="form-group col-md-4">
+                            <label for="inputEmail4"> <FormattedMessage id="manage_doctor.province"/></label>
+                            <Select
+                                value={this.state.selectedProvince}
+                                onChange={(selectedProvince) => {this.setState({selectedProvince: selectedProvince})}}
+                                options={this.state.provinceList}
+                            />
+                        </div>
+
+                        <div className="form-group mt_15 col-md-4">
+                            <label for="inputEmail4"> <FormattedMessage id="manage_doctor.Clinic_name"/></label>
+                            <input value={this.state.nameClinic} className="form-control" onChange={(e) => this.setState({nameClinic: e.target.value})}/>
+                        </div>
+                        <div className="form-group mt_15 col-md-4">
+                            <label for="inputEmail4"> <FormattedMessage id="manage_doctor.Address_of_examination"/></label>
+                            <input value={this.state.addressClinic} className="form-control" onChange={(e) => this.setState({addressClinic: e.target.value})}/>
+                        </div>
+                        <div className="form-group  mt_15 col-md-4">
+                            <label for="inputEmail4"> <FormattedMessage id="manage_doctor.Note"/></label>
+                            <input value={this.state.note} className="form-control" onChange={(e) => this.setState({note: e.target.value})}/>
+                        </div>
                     </div>
                 </div>
                 <div className='manage-doctor-editor'>
@@ -133,13 +245,13 @@ class ManageDoctor extends Component {
                             className='btn_save'
                             onClick={() => this.SaveMarkDown()}
                         >
-                            Edit thong tin
+                            <FormattedMessage id="manage_doctor.edit_information"/>
                         </button> :
                         <button
                             className='btn_save'
                             onClick={() => this.SaveMarkDown()}
                         >
-                            Lưu thông tin
+                            <FormattedMessage id="manage_doctor.save_information"/>
                         </button>}
                 </div>
 

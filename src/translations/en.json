@@ -52,9 +52,24 @@
         "positionId": "PositionId",
         "image": "Image"
     },
+    "manage_doctor": {
+        "title": "Create more infomation doctor",
+        "introductory": "Introductory Information",
+        "choose_doctor": "Choose doctor",
+        "edit_information": "Edit infomation",
+        "save_information": "Save information",
+        "choose_price": "Choose price",
+        "select_payment_method": "Select a payment method",
+        "province": "Province",
+        "Clinic_name": "Clinic name",
+        "Address_of_examination": "Address of examination",
+        "Note": "Note"
+    },
     "homepage": {
         "out-standing-doctor": "Last week's featured doctor",
-        "more-info": "More info"
+        "more-info": "More info",
+        "specialty-popular": "Specialty popular",
+        "more-info": "More Info"
     },
     "manage-schedult": {
         "title": "Manage schedule doctor",

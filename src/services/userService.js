@@ -1,4 +1,5 @@
 import axios from "../axios";
+import VerifyEmail from './../containers/Patient/VerifyEmail/index';
 
 export const handleLogin = (userEmail, userPassword) => {
     return axios.post('/api/login', {email: userEmail, password: userPassword});
@@ -58,4 +59,20 @@ export const postBulkCreateSchedule = (data) => {
 
 export const getScheduleByDate = (doctorId, date) => {
     return axios.get('/api/get-schedule-by-date', {params: {doctorId, date}})
+}
+
+export const postPatientAppoiment = (data) => {
+    return axios.post('/api/patient-book-appoinment', data);
+}
+
+export const VerifyEmailBooking = (data) => {
+    return axios.post('/api/verify-book-appoinment', data)
+}
+
+export const addNewSpecialty = (data) => {
+    return axios.post('/api/create-new-specialty', data)
+}
+
+export const getAllSpecialty = () => {
+    return axios.get('/api/get-all-Specialty')
 }

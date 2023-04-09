@@ -1,0 +1,40 @@
+.manage_specialty {
+    width: 100%;
+
+    .title {
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 20px;
+        margin-top: 15px;
+        color: #0071ba;
+    }
+
+    .container {
+        margin-top: 30px;
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .btn_save {
+            margin: 20px 0;
+            display: flex;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #069132;
+            color: white;
+            outline: none;
+        }
+
+        .privew-image {
+            width: 200px;
+            height: 70px;
+            margin-top: 10px;
+            background: center center no-repeat;
+            background-size: contain;
+            cursor: pointer;
+        }
+    }
+}

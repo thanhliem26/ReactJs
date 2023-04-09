@@ -52,8 +52,23 @@
         "positionId": "Vai tro",
         "image": "Anh dai dien"
     },
+    "manage_doctor": {
+        "title": "Tạo thêm thông tin bác sĩ",
+        "introductory": "Thông tin giới thiệu",
+        "choose_doctor": "Chọn bác sĩ",
+        "edit_information": "Chỉnh sửa thông tin",
+        "save_information": "Lưu thông tin",
+        "choose_price": "Chọn giá",
+        "select_payment_method": "Chọn phương thức thanh toán",
+        "province": "Tỉnh thành",
+        "Clinic_name": "Tên phòng khám",
+        "Address_of_examination": "Địa chỉ phòng khám",
+        "Note": "Ghi nhớ"
+    },
     "homepage": {
         "out-standing-doctor": "Bác sĩ nổi bật tuần qua",
+        "more-info": "Xem thêm",
+        "specialty-popular": "Chuyên khoa phổ biến",
         "more-info": "Xem thêm"
     },
     "manage-schedult": {

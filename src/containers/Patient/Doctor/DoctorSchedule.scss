@@ -1,5 +1,28 @@
 .doctor_schedule_container {
     .all_schedule {
-        width: 170px;
+        width: 200px;
+      
+    }
+
+    .active {
+        background-color: #bebe02c7 !important;
+
+        &:hover {
+            background-color: #3032c4 !important;
+        }
+    }
+
+    .pick_hour-container {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 20px;}
+    
+    .btn-schedule {
+        border: 1px solid;
+        padding: 0 10px;
+        margin: 0 5px;
+        background-color: grey;
+        color: white;
+        margin-bottom: 10px;
     }
 }
